@@ -1,26 +1,3 @@
-'''
-file_handler = open("string.bin", "wb")
-# Добавляем две строки в бинарный файл
-file_handler.write(b"Welcome to LinuxHint.\nLearn Python Programming.")
-# Закрываем чтение
-file_handler.close()
-name = input("введите имя файла")
-f = open("main", "rb")
-text = f.read()
-print(text[0:100])
-'''
-#считывание
-'''
-with open("Андропов.jpg", "rb") as file:
-    content: bytes = file.read()
-
-binary: str = "".join(map("{:08b}".format, content))
-
-
-content = bytes(int(binary[i: i + 8], 2) for i in range(0, len(binary), 8))
-f = open("cop.jpg", "wb")
-f.write(content)
-'''
 import random
 import time
 #text текст для обработки
