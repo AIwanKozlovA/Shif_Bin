@@ -1,12 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'forml.ui'
-#
-# Created by: PyQt5 UI code generator 5.14.1
-#
-# WARNING! All changes made in this file will be lost!
-
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 
@@ -19,6 +10,9 @@ class Ui_Dialog(QtWidgets.QWidget):
     mysignal_set_gen_rand = QtCore.pyqtSignal(int, int, int, int, int, int, int, int, int, int, int, int, int)
     def on_mysignal(self, id):
         msg = QMessageBox()
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("shifbin-iconka.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        msg.setWindowIcon(icon)
         msg.setWindowTitle("Ошибка!!!")
         if id == 1:
             msg.setText("Номер реального бита должен быть меньше количества лживых битов на шифр каждого бита!!!")
@@ -34,11 +28,16 @@ class Ui_Dialog(QtWidgets.QWidget):
             msg.setText("Файл не выбран!!!")
         elif id == 7:
             msg.setText("Ошибка при чтении параметров щифра!!!")
+        elif id == 8:
+            msg.setText("Вы не задали парамет для шифра!!!")
         msg.setIcon(QMessageBox.Warning)
         msg.exec_()
         #print(11)
     def on_mysignal1(self, id):
         msg = QMessageBox()
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("shifbin-iconka.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        msg.setWindowIcon(icon)
         msg.setWindowTitle("Процесс начался!!")
         if id == 1:
             msg.setText("Процесс шифрования файла начался. Если вы задали большие параметры для шифра, то процесс, может занять длительное время!!!\n Если вы используйте 12ую цифру(прибавленное число), то передадавайте параметр шифра после шифровки, так как часть параметра шифра(остаток) вычисляется и автоматически записывается после шифровки файла. О завершении процесса шифрования, эта программа уведомит вас.")
@@ -49,6 +48,9 @@ class Ui_Dialog(QtWidgets.QWidget):
         msg.exec_()
     def on_mysignal_end_sh(self, id):
         msg = QMessageBox()
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("shifbin-iconka.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        msg.setWindowIcon(icon)
         msg.setWindowTitle("Успех!!")
         if id == 1:
             msg.setText("Файл успешно зашифрован и записан поверх оригинала")
@@ -66,6 +68,9 @@ class Ui_Dialog(QtWidgets.QWidget):
         self.lineEdit_9.setText(str(o))
     def on_mysignal_end_dsh(self, id):
         msg = QMessageBox()
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("shifbin-iconka.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        msg.setWindowIcon(icon)
         msg.setWindowTitle("Успех!!")
         if id == 1:
             msg.setText("Файл успешно расшифрован и записан поверх зашифрованного файла")
