@@ -83,27 +83,32 @@ def shq(fil, sm, nrsh, sme, na, pa, f, k, pz, kpz, srm, srmd, pr):
             pr = random.randint(1, 1000000000)
             #ui.lineEdit_8.setText(str(pr))
             ui.mysignal_set_gen_rand.emit(dt,sm, nrsh, sme, na, pa, f, k, pz, kpz, srm, srmd, pr)
+        ma = [sm, nrsh, sme, na, pa, f, k, pz, kpz, srm, srmd, pr]
+        if sum(ma) == 0:
+            ui.mysignal.emit(8)
+            erd = True
         #if y(1):
         #    return er(7)
-        ui.mysignal1.emit(1)
-        r, o = sh(binary, sm, nrsh, sme, na, pa, f, k, pz, kpz, srm, srmd, pr)
-        #ui.lineEdit_9.setText(str(o))
-        ui.mysignal_o.emit(o)
-        contents = bytes(int(r[i: i + 8], 2) for i in range(0, len(r), 8))
-        if ui.checkBox_5.checkState() and ui.lineEdit_10.text() == "":
-            f = open(fil[0], "wb")
-            f.write(contents)
-            ui.mysignal_end_sh.emit(1)
-        elif ui.lineEdit_10.text() != "":
-            f = open(fil[0][::-1].split("/",1)[1][::-1]+"/"+ui.lineEdit_10.text(), "wb")
-            f.write(contents)
-            if ui.checkBox_5.checkState():
-                os.remove(fil[0])
-            ui.mysignal_end_sh.emit(2)
-        else:
-            f = open(fil[0].split(".")[0]+' зашифрованная копия.'+fil[0].split(".")[1] , "wb")
-            f.write(contents)
-            ui.mysignal_end_sh.emit(3)
+        if erd == 0:
+            ui.mysignal1.emit(1)
+            r, o = sh(binary, sm, nrsh, sme, na, pa, f, k, pz, kpz, srm, srmd, pr)
+            #ui.lineEdit_9.setText(str(o))
+            ui.mysignal_o.emit(o)
+            contents = bytes(int(r[i: i + 8], 2) for i in range(0, len(r), 8))
+            if ui.checkBox_5.checkState() and ui.lineEdit_10.text() == "":
+                f = open(fil[0], "wb")
+                f.write(contents)
+                ui.mysignal_end_sh.emit(1)
+            elif ui.lineEdit_10.text() != "":
+                f = open(fil[0][::-1].split("/",1)[1][::-1]+"/"+ui.lineEdit_10.text(), "wb")
+                f.write(contents)
+                if ui.checkBox_5.checkState():
+                    os.remove(fil[0])
+                ui.mysignal_end_sh.emit(2)
+            else:
+                f = open(fil[0].split(".")[0]+' зашифрованная копия.'+fil[0].split(".")[1] , "wb")
+                f.write(contents)
+                ui.mysignal_end_sh.emit(3)
 def dshq(fil,sm, nrsh, sme, na, pa, f, k, pz, kpz, srm, srmd, pr, ost):
     erd = False
     if fil[0] == "":
@@ -123,6 +128,10 @@ def dshq(fil,sm, nrsh, sme, na, pa, f, k, pz, kpz, srm, srmd, pr, ost):
             erd = True
         if srm > dt - 1:
             ui.mysignal.emit(5)
+            erd = True
+        ma = [sm, nrsh, sme, na, pa, f, k, pz, kpz, srm, srmd, pr]
+        if sum(ma) == 0:
+            ui.mysignal.emit(8)
             erd = True
         if erd == 0:
             ui.mysignal1.emit(2)
@@ -209,6 +218,9 @@ def dshqv():
         thr.start()
 def vop():
     msg = QMessageBox()
+    icon = QtGui.QIcon()
+    icon.addPixmap(QtGui.QPixmap("shifbin-iconka.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+    msg.setWindowIcon(icon)
     msg.setWindowTitle("Объяснение")
     msg.setText("Программа 'Shifbin' написана для того, чтобы пользователи могли надёжно шифровать свои файлы (любого формата), через программу с открытым исходным кодом.\n Чтобы задать парамет шифра нужно ввести в поля ввода цифры(соответствующие требованию программы) или же перед шифровкой файла включить  опцию 'Сгенерировать случайный параметр шифра'. Параметр шифра(ключ) вы божете передать в любом формате. Для вашего удобства его можно записать в файл нажав кнопку 'Сохранить параметр шифра' задав файлу любое имя и расширение.\n Также параметр шифра(ключ) можно считать из файла, для этого нужно нажать на кнопку 'Загрузить параметр шифра'.\n Чтобы зашифровать файл нужно придумать параметр шифра(соответсвующий требованию программы)(ключ) и нажать на кнопку 'Зашифровать', далее программа попросит выбрать файл для шифровки и процесс начнётся.\n Чтобы расшифровать файл нужно знать параметр шифра(ключ) и не ошибиться при его вводе!!!\n Также вы можете удалить оригинал файла, который вы зашифровали или расшифровали, для этого нужно перед нажатием на кнопку 'Зашифровать' или 'Расшифровать' включить опцию 'Удалить оригинал'.\nТакже вы можете дать зашифрованному или расшифрованному файлу имя, под которым он сохранится после обработки. Для этого нужно указать имя файла(желательно с расширением) в поле 'Имя файла после обработки' до шифровки или расшифровки файла.\nВ новой версии этой программы  добавлена 12ая цифра(прибавленное число), которая многократно усложняет дешифровку. Но также после шифрования записывается остаток, который также нужно передать, для расшифровки, в случае использовании 12ой цифры!!! Остаток появляется после шифрования файла!!!\nТребования программы к параметру шифра:\n1) Номер реального бита не может быть больше количество лживых битов на шифр каждого бита.\n2) Смещение битов не может быть больше размера выбранного файла\n3) Количество перевёрнутых бит должно быть меньше размера выбранного файла\n4) Позизиция с которой будет добавляться рандомная последовательность не может быть больше размера выбранного файла")
     #msg.addButton("нет", QMessageBox.ResetRole)
